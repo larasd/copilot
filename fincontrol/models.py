@@ -1,4 +1,6 @@
 from django.db import models
+import time
+year, month, day, hour, min = map(int, time.strftime("%Y %m %d %H %M").split())
 
 class ActivityType(models.Model):
     at = models.CharField(max_length=6)
@@ -32,7 +34,7 @@ day_type_otions = [
     ('A', 'Absence'),
 ]
 class DayType(models.Model):
-    day_type=
+    day_type=models.CharField(max_length=20, choices=day_type_otions)
 
 class Holidays(models.Model):
 
@@ -50,12 +52,17 @@ budget_type_otions = [
     ('D','Delta')
 ]
 class Budget(models.Model):
-    budget_type=
+    budget_type=models.CharField(max_length=20, choices=budget_type_otions)
 
+scenario_status_options= [
+    ("S","Simulation"),
+    ("E", "Efective"),
+]
 class Scenario:
-    name=
+    name=models.CharField(max_length=100)
     description=
-    year=
-    period=
+    year=models.IntegerField(default=year)
+    period=models.CharField(max_length=3)
     status=
+    version=models.IntegerField()
 
