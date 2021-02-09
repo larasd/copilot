@@ -2,6 +2,12 @@ from django.db import models
 import time
 year, month, day, hour, min = map(int, time.strftime("%Y %m %d %H %M").split())
 
+
+class Resource(models.Model):
+    name= models.CharField(max_lengt=100)
+    third = models.BooleanField(default=False)
+
+
 class ActivityType(models.Model):
     at = models.CharField(max_length=6)
     value = models.DecimalField(decimal_places=2)
@@ -33,15 +39,15 @@ day_type_otions = [
     ('V', 'Vacation'),
     ('A', 'Absence'),
 ]
-class DayType(models.Model):
-    day_type=models.CharField(max_length=20, choices=day_type_otions)
 
-class Holidays(models.Model):
+
 
 class Calendar(models.Model):
     resource=
-    date=
-    day_type=
+    date=models.DateTimeField()
+    day_type=models.CharField(max_length=20, choices=day_type_otions)
+
+
 
 budget_type_otions = [
     ('Y', 'Yearly'),
@@ -60,9 +66,9 @@ scenario_status_options= [
 ]
 class Scenario:
     name=models.CharField(max_length=100)
-    description=
+    description=models.TexField()
     year=models.IntegerField(default=year)
     period=models.CharField(max_length=3)
-    status=
+    status=models.TexField(choices=scenario_status_options)
     version=models.IntegerField()
 
