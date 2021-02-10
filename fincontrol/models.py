@@ -14,21 +14,15 @@ class Scenario:
     status=models.TexField(choices=scenario_status_options)
     version=models.IntegerField()
 
-
-
 class ActivityType(models.Model):
     at = models.CharField(max_length=6)
     value = models.DecimalField(decimal_places=2)
 
 class Resource(models.Model):
-    scenario=models.ForeignKey(Scenario,on_delete=)
+    scenario=models.ForeignKey(Scenario,on_delete=models.SET_NULL)
     name= models.CharField(max_lengt=100)
     third = models.BooleanField(default=False)
-    at=models.ForeignKey(Scenario,on_delete=)
-
-
-
-
+    at=models.ForeignKey(Scenario,on_delete=models.SET_NULL)
 
 class Status(models.Model):
     status=models.CharField(max_length=20)
@@ -44,15 +38,18 @@ account_options = [
 
 ]
 class Wbs(models.Model):
+    app=models.ForeignKey(Application,on_delete=models.SET_NULL)
     wbs=models.CharField(max_length=15)
     account=models.CharField(choices=account_options)
 
 class Periods(models.Model):
+    year=models.IntegerField()
     week=models.IntegerField()
     period=models.IntegerField()
 
 class Allocation(models.Model):
-    resource=models.ForeignKey(Resource,on_delete=)
+    scenario=models.ForeignKey(Scenario,on_delete=models.SET_NULL)
+    resource=models.ForeignKey(Resource,on_delete=models.SET_NULL)
     rt=models.DecimalField(decimal_places=2)
     ot = models.DecimalField(decimal_places=2)
 
@@ -65,14 +62,10 @@ day_type_otions = [
     ('A', 'Absence'),
 ]
 
-
-
 class Calendar(models.Model):
-    resource=models.ForeignKey(Resource,on_delete=)
+    resource=models.ForeignKey(Resource,on_delete=models.SET_NULL)
     date=models.DateTimeField()
     day_type=models.CharField(max_length=20, choices=day_type_otions)
-
-
 
 budget_type_otions = [
     ('Y', 'Yearly'),
@@ -84,10 +77,11 @@ budget_type_otions = [
 ]
 class Budget(models.Model):
     budget_type=models.CharField(max_length=20, choices=budget_type_otions)
+    resource=models.ForeignKey(Resource,on_delete=models.SET_NULL)
 
 class BudgetDetails(models.Model):
-    budget= models.ForeignKey(Budget, on_delete=)
-    wbs=
+    budget= models.ForeignKey(Budget, on_delete=models.SET_NULL)
+    wbs=models.ForeignKey(Wbs,on_delete=models.SET_NULL)
     p1 = models.DecimalField(decimal_places=2, max_digits=12)
     p2 = models.DecimalField(decimal_places=2, max_digits=12)
     p3 = models.DecimalField(decimal_places=2, max_digits=12)
