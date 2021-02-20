@@ -24,8 +24,6 @@ class Resource(models.Model):
     third = models.BooleanField(default=False)
     at=models.ForeignKey(Scenario,on_delete=models.SET_NULL)
 
-class Status(models.Model):
-    status=models.CharField(max_length=20)
 
 class Application(models.Model):
     apm_id=models.IntegerField()
@@ -94,4 +92,11 @@ class BudgetDetails(models.Model):
     p10 = models.DecimalField(decimal_places=2, max_digits=12)
     p11 = models.DecimalField(decimal_places=2, max_digits=12)
     p12 = models.DecimalField(decimal_places=2, max_digits=12)
+
+class CJI3(models.Model):
+    name=models.TextField(max_length=50)
+    wbs=models.TextField(max_length=12)
+    at=models.TextField(max_length=6)
+    wbs_description=models.TextField(max_length=100)
+    value=models.DecimalField(decimal_places=2)
 
